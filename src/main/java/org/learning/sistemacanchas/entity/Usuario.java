@@ -3,10 +3,11 @@ package org.learning.sistemacanchas.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.jspecify.annotations.Nullable;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -32,19 +33,18 @@ public class Usuario implements UserDetails {
     private String apellido;
     @NonNull
     @Column(nullable = false, unique = true)
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}$")
+    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
     private String email;
     @NonNull
     @Column(nullable = false)
     private String contrasenia;
-    @NonNull
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private LocalDateTime creacion;
-    @NonNull
     @UpdateTimestamp
-    @Column(name = "ultima_actualizacion")
+    @Column(name = "ultima_actualizacion", nullable = false)
     private LocalDateTime ultimaActualizacion;
+
     @NonNull
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
@@ -52,7 +52,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority(this.getRol().getNombre().toString()));
     }
 
     @Override

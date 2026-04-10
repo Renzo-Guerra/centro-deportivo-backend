@@ -2,6 +2,7 @@ package org.learning.sistemacanchas.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -19,17 +20,6 @@ public class Turno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    @CreatedDate
-    @Column(name = "fecha_creacion", updatable = false, nullable = false)
-    private LocalDateTime creacion;
-    @NonNull
-    @Column(name = "fecha_turno", nullable = false)
-    private LocalDateTime horario;
-    @NonNull
-    @UpdateTimestamp
-    @Column(name = "ultima_actualizacion")
-    private LocalDateTime ultimaActualizacion;
-    @NonNull
     @Column(name = "nombre_cliente", nullable = false)
     private String nombreCliente;
     @NonNull
@@ -38,6 +28,15 @@ public class Turno {
     @NonNull
     @Column(name = "celular_cliente", nullable = false)
     private String celularCliente;
+    @NonNull
+    @Column(name = "fecha_turno", nullable = false)
+    private LocalDateTime horario;
+    @CreationTimestamp
+    @Column(name = "fecha_creacion", updatable = false, nullable = false)
+    private LocalDateTime creacion;
+    @UpdateTimestamp
+    @Column(name = "ultima_actualizacion", nullable = false)
+    private LocalDateTime ultimaActualizacion;
 
     @NonNull
     @ManyToOne

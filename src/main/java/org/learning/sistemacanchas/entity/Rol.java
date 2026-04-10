@@ -15,21 +15,20 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Builder
+@ToString
 @Table(name = "tbl_rol")
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    private RolEnum rol;
-    @NonNull
-    @CreatedDate
+    private RolEnum nombre;
+    @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private LocalDateTime creacion;
-    @NonNull
     @UpdateTimestamp
-    @Column(name = "ultima_actualizacion")
+    @Column(name = "ultima_actualizacion", nullable = false)
     private LocalDateTime ultimaActualizacion;
 }
