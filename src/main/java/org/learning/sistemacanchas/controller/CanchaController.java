@@ -5,12 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.service.CanchaService;
+import org.learning.sistemacanchas.utils.PageDTORes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/canchas")
@@ -21,5 +19,13 @@ public class CanchaController {
     @PostMapping
     public ResponseEntity<CanchaSummaryDTORes> registrarCancha(@Valid @RequestBody CanchaDTOReq request){
         return ResponseEntity.status(HttpStatus.CREATED).body(canchaService.registrarCancha(request));
+    }
+
+    @GetMapping
+    public ResponseEntity<PageDTORes<CanchaSummaryDTORes>> traerTodasLasCanchas(
+        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        return ResponseEntity.ok(canchaService.traerTodasLasCanchas(pageNo, pageSize));
     }
 }
