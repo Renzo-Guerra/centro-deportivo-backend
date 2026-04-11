@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.learning.sistemacanchas.enums.RolEnum;
-import org.springframework.data.annotation.CreatedDate;
+import org.learning.sistemacanchas.enums.CanchaEnum;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class Cancha {
     @NonNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RolEnum tipo;
+    private CanchaEnum tipo;
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private LocalDateTime creacion;

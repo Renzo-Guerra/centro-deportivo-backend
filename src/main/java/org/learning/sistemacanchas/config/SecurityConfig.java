@@ -34,6 +34,7 @@ public class SecurityConfig {
                 // Definir endpoints publicos o privados
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(publicEndpoints()).permitAll()
+                        .requestMatchers(adminEndpoints()).hasAuthority(RolEnum.ADMIN.name())
                         .anyRequest().authenticated()) // Any other needs to be authenticated
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
@@ -46,7 +47,15 @@ public class SecurityConfig {
         PathPatternRequestMatcher.Builder builder = PathPatternRequestMatcher.withDefaults();
 
         return new OrRequestMatcher(List.of(
-                builder.matcher(HttpMethod.POST, "/api/autenticacion/loguearse")
+                builder.matcher(HttpMethod.POST, "/api/autenticacion/login")
+        ));
+    }
+
+    private RequestMatcher adminEndpoints(){
+        PathPatternRequestMatcher.Builder builder = PathPatternRequestMatcher.withDefaults();
+
+        return new OrRequestMatcher(List.of(
+                builder.matcher(HttpMethod.POST, "/api/canchas")
         ));
     }
 }
