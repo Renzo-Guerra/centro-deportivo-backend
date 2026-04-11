@@ -125,4 +125,19 @@ public class CanchaControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pageNo").value("0"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pageSize").value("10"));
     }
+
+    @Test
+    public void canchaController_traerCanchaPorId_devuelveCanchaDeseada() throws Exception {
+        Long idCancha = 1L;
+
+        given(canchaService.traerCanchaPorId(idCancha))
+                .willReturn(canchaResponseDTO);
+
+        ResultActions resultActions = mockMvc.perform(get("/api/canchas/" + idCancha)
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultActions
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(idCancha));
+    }
 }

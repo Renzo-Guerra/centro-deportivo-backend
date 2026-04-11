@@ -7,4 +7,5 @@ import org.learning.sistemacanchas.utils.PageDTORes;
 public interface CanchaService {
     CanchaSummaryDTORes registrarCancha(CanchaDTOReq request);
     PageDTORes<CanchaSummaryDTORes> traerTodasLasCanchas(int pageNo, int pageSize);
+    CanchaSummaryDTORes traerCanchaPorId(Long id);
 }

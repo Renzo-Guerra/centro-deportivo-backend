@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
+import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.repository.CanchaRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
@@ -47,6 +48,14 @@ public class CanchaServiceImp implements CanchaService{
                 .totalPages(canchasPage.getTotalPages())
                 .last(canchasPage.isLast())
                 .build();
+    }
+
+    @Override
+    public CanchaSummaryDTORes traerCanchaPorId(Long id) {
+        Cancha cancha = canchaRepository.findById(id)
+                .orElseThrow(()-> new NoEncontradoException("No se logró encontrar la cancha con id '" + id + "'!"));
+
+        return CanchaMapper.canchaToCanchaSummaryDTORes(cancha);
     }
 
 }

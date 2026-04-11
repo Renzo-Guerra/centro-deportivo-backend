@@ -28,4 +28,9 @@ public class CanchaController {
     ){
         return ResponseEntity.ok(canchaService.traerTodasLasCanchas(pageNo, pageSize));
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<CanchaSummaryDTORes> traerCanchaPorId(@PathVariable Long id){
+        return ResponseEntity.ok(canchaService.traerCanchaPorId(id));
+    }
 }

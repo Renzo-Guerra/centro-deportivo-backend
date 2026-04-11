@@ -8,6 +8,7 @@ import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.enums.CanchaEnum;
+import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.repository.CanchaRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -100,5 +102,33 @@ public class CanchaServiceTest {
         Assertions.assertThat(response.getPageSize()).isEqualTo(page.getSize());
 
         Mockito.verify(canchaRepository, Mockito.times(1)).findAll(any(Pageable.class));
+    }
+
+    @Test
+    public void canchaService_traerCanchaPorId_retornaLaCancha(){
+        Long idcancha = 1L;
+
+        Mockito.when(canchaRepository.findById(idcancha))
+                .thenReturn(Optional.of(cancha));
+
+        CanchaSummaryDTORes canchaDevuelta = canchaService.traerCanchaPorId(idcancha);
+
+        Assertions.assertThat(canchaDevuelta).isNotNull();
+        Assertions.assertThat(canchaDevuelta.getId()).isEqualTo(idcancha);
+
+        Mockito.verify(canchaRepository, Mockito.times(1)).findById(idcancha);
+    }
+
+    @Test
+    public void canchaService_traerCanchaPorId_arrojaNoEncontradoException(){
+        Long idcancha = 1L;
+
+        Mockito.when(canchaRepository.findById(idcancha))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> canchaService.traerCanchaPorId(idcancha))
+                        .isInstanceOf(NoEncontradoException.class);
+
+        Mockito.verify(canchaRepository, Mockito.times(1)).findById(idcancha);
     }
 }
