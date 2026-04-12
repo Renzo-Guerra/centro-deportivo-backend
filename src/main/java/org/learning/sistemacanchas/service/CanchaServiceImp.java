@@ -52,10 +52,15 @@ public class CanchaServiceImp implements CanchaService{
 
     @Override
     public CanchaSummaryDTORes traerCanchaPorId(Long id) {
-        Cancha cancha = canchaRepository.findById(id)
-                .orElseThrow(()-> new NoEncontradoException("No se logró encontrar la cancha con id '" + id + "'!"));
+        Cancha cancha = this.traerEntidadCanchaPorId(id);
 
         return CanchaMapper.canchaToCanchaSummaryDTORes(cancha);
+    }
+
+    @Override
+    public Cancha traerEntidadCanchaPorId(Long id) {
+        return canchaRepository.findById(id)
+                .orElseThrow(()-> new NoEncontradoException("No se logró encontrar la cancha con id '" + id + "'!"));
     }
 
 }

@@ -28,8 +28,11 @@ public class Turno {
     @Column(name = "celular_cliente", nullable = false)
     private String celularCliente;
     @NonNull
-    @Column(name = "fecha_turno", nullable = false)
-    private LocalDateTime horario;
+    @Column(name = "inicio_turno", nullable = false)
+    private LocalDateTime inicioTurno;
+    @NonNull
+    @Column(name = "fin_turno", nullable = false)
+    private LocalDateTime finTurno;
     @CreationTimestamp
     @Column(name = "fecha_creacion", updatable = false, nullable = false)
     private LocalDateTime creacion;

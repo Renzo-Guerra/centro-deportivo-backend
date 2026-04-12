@@ -3,6 +3,7 @@ package org.learning.sistemacanchas.controller;
 import jakarta.validation.ConstraintViolationException;
 import org.learning.sistemacanchas.exception.CredencialesInvalidasException;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
+import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -43,6 +44,14 @@ public class ErrorHandlerController {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception){
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("error", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+    @ExceptionHandler(TurnosSuperpuestosException.class)
+    public ResponseEntity<Map<String, String>> handleTurnosSuperpuestosException(TurnosSuperpuestosException exception){
         Map<String, String> errors = new HashMap<>();
 
         errors.put("error", exception.getMessage());

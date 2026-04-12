@@ -55,7 +55,9 @@ public class SecurityConfig {
         PathPatternRequestMatcher.Builder builder = PathPatternRequestMatcher.withDefaults();
 
         return new OrRequestMatcher(List.of(
-                builder.matcher(HttpMethod.POST, "/api/canchas")
+                builder.matcher(HttpMethod.GET, "/api/canchas/**"),
+                builder.matcher(HttpMethod.POST, "/api/canchas/**"),
+                builder.matcher(HttpMethod.POST, "/api/turnos/**")
         ));
     }
 }
