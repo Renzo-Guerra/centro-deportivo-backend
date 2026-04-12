@@ -18,5 +18,6 @@ public class TurnoDTORes {
     private LocalDateTime creacionTurno;
     private LocalDateTime inicioTurno;
     private Long duracionMinutos;
+    private Long idCancha;
     private String nombreCancha;
 }

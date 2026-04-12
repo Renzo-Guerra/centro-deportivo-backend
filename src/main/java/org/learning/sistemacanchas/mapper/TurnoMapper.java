@@ -15,6 +15,7 @@ public class TurnoMapper {
                 .inicioTurno(entity.getInicioTurno())
                 .creacionTurno(entity.getCreacion())
                 .duracionMinutos(ChronoUnit.MINUTES.between(entity.getInicioTurno(), entity.getFinTurno()))
+                .idCancha(entity.getCancha().getId())
                 .nombreCancha(entity.getCancha().getNombre())
                 .build();
     }

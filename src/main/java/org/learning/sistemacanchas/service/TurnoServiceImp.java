@@ -1,15 +1,23 @@
 package org.learning.sistemacanchas.service;
 
 import lombok.RequiredArgsConstructor;
+import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.DTOs.TurnoDTOReq;
 import org.learning.sistemacanchas.DTOs.TurnoDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
+import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.mapper.TurnoMapper;
 import org.learning.sistemacanchas.repository.TurnoRepository;
+import org.learning.sistemacanchas.utils.PageDTORes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +50,26 @@ public class TurnoServiceImp implements TurnoService{
         Turno turnoRegistrado = turnoRepository.save(nuevoTurno);
 
         return TurnoMapper.turnoToTurnoDTORes(turnoRegistrado);
+    }
+
+    @Override
+    public PageDTORes<TurnoDTORes> traerTodosLosTurnos(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        Page<Turno> turnosPage = turnoRepository.findAll(pageable);
+        List<Turno> turnosList = turnosPage.getContent();
+
+        List<TurnoDTORes> content = turnosList.stream()
+                .map(TurnoMapper::turnoToTurnoDTORes)
+                .toList();
+
+        return PageDTORes.<TurnoDTORes>builder()
+                .content(content)
+                .pageNo(turnosPage.getNumber())
+                .pageSize(turnosPage.getSize())
+                .totalElements(turnosPage.getTotalElements())
+                .totalPages(turnosPage.getTotalPages())
+                .last(turnosPage.isLast())
+                .build();
     }
 }
