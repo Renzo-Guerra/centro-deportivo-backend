@@ -20,4 +20,5 @@ public class TurnoDTORes {
     private Long duracionMinutos;
     private Long idCancha;
     private String nombreCancha;
+    private String deporte;
 }
