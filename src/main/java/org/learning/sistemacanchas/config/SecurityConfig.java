@@ -62,6 +62,7 @@ public class SecurityConfig {
         return new OrRequestMatcher(List.of(
                 builder.matcher(HttpMethod.GET, "/api/canchas/**"),
                 builder.matcher(HttpMethod.POST, "/api/canchas/**"),
+                builder.matcher(HttpMethod.GET, "/api/turnos/**"),
                 builder.matcher(HttpMethod.POST, "/api/turnos/**")
         ));
     }

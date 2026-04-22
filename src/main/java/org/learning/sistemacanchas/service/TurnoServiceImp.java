@@ -1,13 +1,11 @@
 package org.learning.sistemacanchas.service;
 
 import lombok.RequiredArgsConstructor;
-import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.DTOs.TurnoDTOReq;
 import org.learning.sistemacanchas.DTOs.TurnoDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
-import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.mapper.TurnoMapper;
 import org.learning.sistemacanchas.repository.TurnoRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
@@ -17,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -71,5 +72,17 @@ public class TurnoServiceImp implements TurnoService{
                 .totalPages(turnosPage.getTotalPages())
                 .last(turnosPage.isLast())
                 .build();
+    }
+
+    @Override
+    public List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha) {
+        LocalDateTime inicioDia = LocalDateTime.of(fecha, LocalTime.MIN);
+        LocalDateTime finDia = LocalDateTime.of(fecha, LocalTime.MAX);
+
+        List<Turno> turnos = turnoRepository.findAllByFecha(inicioDia, finDia);
+
+        return turnos.stream()
+                .map(TurnoMapper::turnoToTurnoDTORes)
+                .toList();
     }
 }

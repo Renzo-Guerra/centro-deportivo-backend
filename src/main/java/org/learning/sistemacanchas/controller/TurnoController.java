@@ -6,9 +6,17 @@ import org.learning.sistemacanchas.DTOs.TurnoDTOReq;
 import org.learning.sistemacanchas.DTOs.TurnoDTORes;
 import org.learning.sistemacanchas.service.TurnoService;
 import org.learning.sistemacanchas.utils.PageDTORes;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +35,15 @@ public class TurnoController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize
     ){
         return ResponseEntity.ok(turnoService.traerTodosLosTurnos(pageNo, pageSize));
+    }
+
+    @GetMapping("/fecha")
+    public ResponseEntity<List<TurnoDTORes>> traerTurnosPorFecha(
+            @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha
+    ) {
+        System.out.println("FECHAAAAAAAAAAAAAAAAAAAAAA ----------------- ");
+        System.out.println(fecha);
+        System.out.println(fecha.toString());
+        return ResponseEntity.ok(turnoService.traerTurnosPorFecha(fecha));
     }
 }

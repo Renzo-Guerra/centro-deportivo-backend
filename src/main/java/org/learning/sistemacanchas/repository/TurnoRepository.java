@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.List;
 
 @Repository
 public interface TurnoRepository extends JpaRepository<Turno, Long> {
@@ -21,4 +24,13 @@ public interface TurnoRepository extends JpaRepository<Turno, Long> {
     Long traerTurnosSuperpuestos(@Param("id") Long id,
                                  @Param("inicioTurno") LocalDateTime inicioTurno,
                                  @Param("finTurno") LocalDateTime finTurno);
+
+    @Query("""
+        SELECT t
+        FROM Turno t
+        WHERE t.inicioTurno BETWEEN :inicioDia AND :finDia
+    """)
+    List<Turno> findAllByFecha(
+            @Param("inicioDia") LocalDateTime inicioDia,
+            @Param("finDia") LocalDateTime finDia);
 }
