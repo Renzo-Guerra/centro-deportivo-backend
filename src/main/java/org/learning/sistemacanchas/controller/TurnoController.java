@@ -11,11 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -41,9 +37,6 @@ public class TurnoController {
     public ResponseEntity<List<TurnoDTORes>> traerTurnosPorFecha(
             @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha
     ) {
-        System.out.println("FECHAAAAAAAAAAAAAAAAAAAAAA ----------------- ");
-        System.out.println(fecha);
-        System.out.println(fecha.toString());
         return ResponseEntity.ok(turnoService.traerTurnosPorFecha(fecha));
     }
 }
