@@ -20,7 +20,7 @@ public class CanchaSeeder implements Seeder{
         String[] tipoCancha = new String[]{"FUTBOL", "TENIS", "PADEL", "VOLEY"};
         List<Cancha> canchas = new ArrayList<>();
 
-        for(int i = 0;i < 9;i++){
+        for(int i = 0;i < 6;i++){
             Cancha nuevaCancha = Cancha.builder()
                     .nombre("Cancha " + (i + 1)).
                     tipo(CanchaEnum.valueOf(tipoCancha[(i % tipoCancha.length)])).

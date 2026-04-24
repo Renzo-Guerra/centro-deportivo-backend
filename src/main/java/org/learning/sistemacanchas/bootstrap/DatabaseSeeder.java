@@ -11,11 +11,13 @@ public class DatabaseSeeder implements ApplicationListener<ContextRefreshedEvent
     private final RolSeeder rolSeeder;
     private final UsuarioSeeder usuarioSeeder;
     private final CanchaSeeder canchaSeeder;
+    private final TurnoSeeder turnoSeeder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         rolSeeder.seed();
         usuarioSeeder.seed();
         canchaSeeder.seed();
+        turnoSeeder.seed();
     }
 }
