@@ -12,6 +12,7 @@ import org.learning.sistemacanchas.utils.PageDTORes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,11 +76,17 @@ public class TurnoServiceImp implements TurnoService{
     }
 
     @Override
-    public List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha) {
+    public List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha, String sortBy, String direction) {
+        Sort sort = Sort.unsorted();
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        }
+
         LocalDateTime inicioDia = LocalDateTime.of(fecha, LocalTime.MIN);
         LocalDateTime finDia = LocalDateTime.of(fecha, LocalTime.MAX);
 
-        List<Turno> turnos = turnoRepository.findAllByFecha(inicioDia, finDia);
+        List<Turno> turnos = turnoRepository.findAllByFecha(inicioDia, finDia, sort);
 
         return turnos.stream()
                 .map(TurnoMapper::turnoToTurnoDTORes)

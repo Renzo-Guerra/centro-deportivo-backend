@@ -35,8 +35,10 @@ public class TurnoController {
 
     @GetMapping("/fecha")
     public ResponseEntity<List<TurnoDTORes>> traerTurnosPorFecha(
-            @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha
+            @RequestParam(name = "fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
+            @RequestParam(name = "sortBy", required = false) String sortBy,
+            @RequestParam(name = "direction", required = false, defaultValue = "ASC") String direction
     ) {
-        return ResponseEntity.ok(turnoService.traerTurnosPorFecha(fecha));
+        return ResponseEntity.ok(turnoService.traerTurnosPorFecha(fecha, sortBy, direction));
     }
 }

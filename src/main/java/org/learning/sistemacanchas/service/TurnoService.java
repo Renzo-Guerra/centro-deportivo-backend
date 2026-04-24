@@ -10,5 +10,5 @@ import java.util.List;
 public interface TurnoService {
     TurnoDTORes crearTurno(TurnoDTOReq turno);
     PageDTORes<TurnoDTORes> traerTodosLosTurnos(int pageNo, int pageSize);
-    List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha);
+    List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha, String sortBy, String direction);
 }
