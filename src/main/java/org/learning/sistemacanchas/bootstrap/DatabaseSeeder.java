@@ -10,10 +10,12 @@ import org.springframework.stereotype.Component;
 public class DatabaseSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final RolSeeder rolSeeder;
     private final UsuarioSeeder usuarioSeeder;
+    private final CanchaSeeder canchaSeeder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         rolSeeder.seed();
         usuarioSeeder.seed();
+        canchaSeeder.seed();
     }
 }
