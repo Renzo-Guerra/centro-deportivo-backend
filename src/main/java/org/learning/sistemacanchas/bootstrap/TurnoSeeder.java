@@ -26,7 +26,7 @@ public class TurnoSeeder implements Seeder{
                             .nombreCliente(getRandomValue(new String[]{"Miguel", "Julieta", "Agustina", "Maria", "Ramiro"}))
                             .apellidoCliente(getRandomValue(new String[]{"Torres", "Gonzales", "Ramirez", "Alvares", "Maldonado"}))
                             .celularCliente("2231-334456")
-                            .inicioTurno(LocalDateTime.now().plusHours(getRandomValue(new Integer[]{1, 2, 3, 4, 5, 6})))
+                            .inicioTurno(LocalDateTime.now().plusHours(getRandomValue(new Integer[]{0, 1, 2})))
                             .finTurno(LocalDateTime.now())
                             .cancha(cancha)
                             .build();
