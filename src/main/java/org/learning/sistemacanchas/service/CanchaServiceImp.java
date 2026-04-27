@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
+import org.learning.sistemacanchas.entity.Turno;
+import org.learning.sistemacanchas.exception.CascadeException;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.repository.CanchaRepository;
@@ -61,6 +63,19 @@ public class CanchaServiceImp implements CanchaService{
     public Cancha traerEntidadCanchaPorId(Long id) {
         return canchaRepository.findById(id)
                 .orElseThrow(()-> new NoEncontradoException("No se logró encontrar la cancha con id '" + id + "'!"));
+    }
+
+    @Override
+    public void eliminarCancha(Long id) {
+        Cancha cancha = traerEntidadCanchaPorId(id);
+
+        List<Turno> turnos = canchaRepository.findFutureTurnos(cancha.getId());
+
+        if(!turnos.isEmpty()){
+            throw new CascadeException("La cancha no puede ser eliminada ya que tiene turnos asignados para el futuro!");
+        }
+
+        canchaRepository.delete(cancha);
     }
 
 }

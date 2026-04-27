@@ -1,6 +1,8 @@
 package org.learning.sistemacanchas.controller;
 
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.ConstraintViolationException;
+import org.learning.sistemacanchas.exception.CascadeException;
 import org.learning.sistemacanchas.exception.CredencialesInvalidasException;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
@@ -57,6 +59,24 @@ public class ErrorHandlerController {
         errors.put("error", exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    @ExceptionHandler(CascadeException.class)
+    public ResponseEntity<Map<String, String>> handleCascadeException(CascadeException exception){
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("error", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
+    }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<Map<String, String>> handleSignatureException(SignatureException exception){
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("error", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
     }
 }
 

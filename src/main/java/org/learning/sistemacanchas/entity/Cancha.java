@@ -36,6 +36,6 @@ public class Cancha {
     private LocalDateTime ultimaActualizacion;
 
     @Builder.Default
-    @OneToMany(mappedBy = "cancha")
+    @OneToMany(mappedBy = "cancha", cascade = {CascadeType.REMOVE})
     private List<Turno> turnos = new ArrayList<>();
 }

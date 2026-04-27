@@ -10,4 +10,5 @@ public interface CanchaService {
     PageDTORes<CanchaSummaryDTORes> traerTodasLasCanchas(int pageNo, int pageSize);
     CanchaSummaryDTORes traerCanchaPorId(Long id);
     Cancha traerEntidadCanchaPorId(Long id);
+    void eliminarCancha(Long id);
 }

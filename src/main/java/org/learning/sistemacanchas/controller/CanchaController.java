@@ -33,4 +33,11 @@ public class CanchaController {
     public ResponseEntity<CanchaSummaryDTORes> traerCanchaPorId(@PathVariable Long id){
         return ResponseEntity.ok(canchaService.traerCanchaPorId(id));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> eliminarCancha(@PathVariable Long id){
+        canchaService.eliminarCancha(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }
