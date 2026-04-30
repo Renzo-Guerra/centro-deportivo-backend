@@ -1,5 +1,6 @@
 package org.learning.sistemacanchas.service;
 
+import jakarta.validation.Valid;
 import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
@@ -11,4 +12,5 @@ public interface CanchaService {
     CanchaSummaryDTORes traerCanchaPorId(Long id);
     Cancha traerEntidadCanchaPorId(Long id);
     void eliminarCancha(Long id);
+    CanchaSummaryDTORes editarCancha(Long id, CanchaDTOReq request);
 }

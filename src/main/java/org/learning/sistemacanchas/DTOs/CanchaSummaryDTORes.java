@@ -2,7 +2,6 @@ package org.learning.sistemacanchas.DTOs;
 
 import lombok.*;
 import org.learning.sistemacanchas.enums.CanchaEnum;
-import org.learning.sistemacanchas.enums.RolEnum;
 
 import java.time.LocalDateTime;
 

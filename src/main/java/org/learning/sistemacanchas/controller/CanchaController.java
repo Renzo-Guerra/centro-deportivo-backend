@@ -21,6 +21,11 @@ public class CanchaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(canchaService.registrarCancha(request));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CanchaSummaryDTORes> editarCancha(@PathVariable Long id, @Valid @RequestBody CanchaDTOReq request){
+        return ResponseEntity.ok(canchaService.editarCancha(id, request));
+    }
+
     @GetMapping
     public ResponseEntity<PageDTORes<CanchaSummaryDTORes>> traerTodasLasCanchas(
         @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
 public class CanchaServiceImp implements CanchaService{
     private final CanchaRepository canchaRepository;
 
+    @Transactional
     @Override
     public CanchaSummaryDTORes registrarCancha(CanchaDTOReq request) {
         Cancha canchaReq = CanchaMapper.canchaDTOReqToCancha(request);
@@ -65,17 +67,47 @@ public class CanchaServiceImp implements CanchaService{
                 .orElseThrow(()-> new NoEncontradoException("No se logró encontrar la cancha con id '" + id + "'!"));
     }
 
+    @Transactional
     @Override
     public void eliminarCancha(Long id) {
         Cancha cancha = traerEntidadCanchaPorId(id);
 
-        List<Turno> turnos = canchaRepository.findFutureTurnos(cancha.getId());
-
-        if(!turnos.isEmpty()){
-            throw new CascadeException("La cancha no puede ser eliminada ya que tiene turnos asignados para el futuro!");
-        }
+        verificarSiCanchaTieneTurnosFuturos(cancha.getId());
 
         canchaRepository.delete(cancha);
     }
 
+    @Transactional
+    @Override
+    public CanchaSummaryDTORes editarCancha(Long id, CanchaDTOReq request) {
+        Cancha cancha = traerEntidadCanchaPorId(id);
+
+        verificarSiCanchaTieneTurnosFuturos(cancha.getId());
+
+        cancha.setNombre(request.getNombre());
+        cancha.setTipo(request.getTipo());
+
+        Cancha editedCancha = canchaRepository.save(cancha);
+
+        return CanchaMapper.canchaToCanchaSummaryDTORes(editedCancha);
+    }
+
+
+    /**
+     * Dado un idCancha, verifica si la cancha tiene turnos futuros pendientes.
+     * <p>
+     * Evalua a partir de "inicioTurno", si un turno ya comenzó no se contará
+     * como un turno del futuro.
+     * </p>
+     *
+     * @param idCancha Cancha a evaluar
+     * @throws CascadeException Si se encuentran turnos programados después de la fecha/hora actual.
+     */
+    private void verificarSiCanchaTieneTurnosFuturos (Long idCancha){
+        List<Turno> turnos = canchaRepository.findFutureTurnos(idCancha);
+
+        if(!turnos.isEmpty()){
+            throw new CascadeException("La cancha tiene turnos asignados para el futuro!");
+        }
+    }
 }
