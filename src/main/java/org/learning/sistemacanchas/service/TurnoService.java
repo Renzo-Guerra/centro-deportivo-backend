@@ -11,4 +11,5 @@ public interface TurnoService {
     TurnoDTORes crearTurno(TurnoDTOReq turno);
     PageDTORes<TurnoDTORes> traerTodosLosTurnos(int pageNo, int pageSize);
     List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha, String sortBy, String direction);
+    void eliminarTurno(Long id);
 }

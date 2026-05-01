@@ -5,6 +5,7 @@ import org.learning.sistemacanchas.DTOs.TurnoDTOReq;
 import org.learning.sistemacanchas.DTOs.TurnoDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
+import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
 import org.learning.sistemacanchas.mapper.TurnoMapper;
 import org.learning.sistemacanchas.repository.TurnoRepository;
@@ -91,5 +92,17 @@ public class TurnoServiceImp implements TurnoService{
         return turnos.stream()
                 .map(TurnoMapper::turnoToTurnoDTORes)
                 .toList();
+    }
+
+    private Turno traerEntidadTurnoPorId(Long id){
+        return turnoRepository.findById(id)
+                .orElseThrow(()-> new NoEncontradoException("No se logró encontrar el turno con id '" + id + "'!"));
+    }
+
+    @Override
+    public void eliminarTurno(Long id) {
+        Turno turno = this.traerEntidadTurnoPorId(id);
+
+        turnoRepository.delete(turno);
     }
 }

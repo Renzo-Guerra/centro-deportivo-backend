@@ -25,6 +25,13 @@ public class TurnoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(turnoService.crearTurno(request));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarTurno(@PathVariable("id") Long id){
+        turnoService.eliminarTurno(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping
     public ResponseEntity<PageDTORes<TurnoDTORes>> traerTodosLosTurnos(
             @RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
