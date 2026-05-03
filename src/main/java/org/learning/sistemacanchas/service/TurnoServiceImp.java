@@ -7,6 +7,7 @@ import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
+import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.mapper.TurnoMapper;
 import org.learning.sistemacanchas.repository.TurnoRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
@@ -44,10 +45,10 @@ public class TurnoServiceImp implements TurnoService{
                 .build();
 
         // Verificamos que el horario no se superponga con algun otro turno en esa cancha
-        Long cantTurnosSuperpuestos = turnoRepository.traerTurnosSuperpuestos(cancha.getId(), nuevoTurno.getInicioTurno(), nuevoTurno.getFinTurno());
+        List<Long> idsTurnosSuperpuestos = turnoRepository.traerTurnosSuperpuestos(cancha.getId(), nuevoTurno.getInicioTurno(), nuevoTurno.getFinTurno());
 
-        if(cantTurnosSuperpuestos > 0){
-            throw new TurnosSuperpuestosException("Los horarios del nuevo turno se superponen con los horarios de " + cantTurnosSuperpuestos + " turnos!");
+        if(!idsTurnosSuperpuestos.isEmpty()){
+            throw new TurnosSuperpuestosException("El nuevo turno se superpone con los turnos " + idsTurnosSuperpuestos + "!");
         }
 
         Turno turnoRegistrado = turnoRepository.save(nuevoTurno);
@@ -105,4 +106,32 @@ public class TurnoServiceImp implements TurnoService{
 
         turnoRepository.delete(turno);
     }
+
+    @Override
+    public TurnoDTORes editarTurno(Long id, TurnoDTOReq request) {
+        Turno turno = traerEntidadTurnoPorId(id);
+
+        turno.setNombreCliente(request.getNombreCliente());
+        turno.setApellidoCliente(request.getApellidoCliente());
+        turno.setCelularCliente(request.getCelularCliente());
+        turno.setInicioTurno(request.getInicioTurno());
+        turno.setFinTurno(request.getInicioTurno().plusMinutes(request.getDuracionTurnoMinutos()));
+
+        // Verificamos que el horario no se superponga con algun otro turno en esa cancha
+        List<Long> idsTurnosSuperpuestos = turnoRepository.traerTurnosSuperpuestos(id, turno.getInicioTurno(), turno.getFinTurno());
+
+        // En caso de que el usuario edite la duracion del turno, traerTurnosSuperpuestos va a traer el mismo
+        // turno que estamos tratando de editar como una superposicion de turnos, en caso de que ese sea el
+        // único turno superpuesto, debemos dejar pasar el edit. Caso contrario quiere decir que el turno
+        // superpuesto es diferente al que estamos tratando de editar.
+        if(idsTurnosSuperpuestos.size() == 1 && !idsTurnosSuperpuestos.getFirst().equals(turno.getId())){
+            throw new TurnosSuperpuestosException("El nuevo horario del turno se superpone con los horarios de los turnos " + idsTurnosSuperpuestos + "!");
+        }
+
+        Turno editedTurno = turnoRepository.save(turno);
+
+        return TurnoMapper.turnoToTurnoDTORes(editedTurno);
+    }
+
+
 }

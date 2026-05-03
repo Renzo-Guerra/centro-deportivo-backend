@@ -13,14 +13,14 @@ import java.util.List;
 @Repository
 public interface TurnoRepository extends JpaRepository<Turno, Long> {
     @Query("""
-        SELECT COUNT(t)
+        SELECT t.id
         FROM Turno t
         WHERE
           t.cancha.id = :id
           AND t.inicioTurno < :finTurno
           AND t.finTurno > :inicioTurno
     """)
-    Long traerTurnosSuperpuestos(@Param("id") Long id,
+    List<Long> traerTurnosSuperpuestos(@Param("id") Long id,
                                  @Param("inicioTurno") LocalDateTime inicioTurno,
                                  @Param("finTurno") LocalDateTime finTurno);
 

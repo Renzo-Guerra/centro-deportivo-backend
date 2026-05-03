@@ -2,6 +2,8 @@ package org.learning.sistemacanchas.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
+import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.DTOs.TurnoDTOReq;
 import org.learning.sistemacanchas.DTOs.TurnoDTORes;
 import org.learning.sistemacanchas.service.TurnoService;
@@ -30,6 +32,11 @@ public class TurnoController {
         turnoService.eliminarTurno(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TurnoDTORes> editarTurno(@PathVariable Long id, @Valid @RequestBody TurnoDTOReq request){
+        return ResponseEntity.ok(turnoService.editarTurno(id, request));
     }
 
     @GetMapping

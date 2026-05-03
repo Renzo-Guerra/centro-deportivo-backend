@@ -66,6 +66,7 @@ public class SecurityConfig {
                 builder.matcher(HttpMethod.DELETE, "/api/canchas/**"),
                 builder.matcher(HttpMethod.GET, "/api/turnos/**"),
                 builder.matcher(HttpMethod.POST, "/api/turnos/**"),
+                builder.matcher(HttpMethod.PUT, "/api/turnos/**"),
                 builder.matcher(HttpMethod.DELETE, "/api/turnos/**")
         ));
     }
