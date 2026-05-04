@@ -5,7 +5,6 @@ import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
-import org.learning.sistemacanchas.exception.CascadeException;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
 import org.learning.sistemacanchas.mapper.CanchaMapper;
@@ -111,13 +110,13 @@ public class CanchaServiceImp implements CanchaService{
      * </p>
      *
      * @param idCancha Cancha a evaluar
-     * @throws CascadeException Si se encuentran turnos programados después de la fecha/hora actual.
+     * @throws TurnosSuperpuestosException Si se encuentran turnos programados después de la fecha/hora actual.
      */
     private void verificarSiCanchaTieneTurnosFuturos (Long idCancha){
         List<Turno> turnos = canchaRepository.findFutureTurnos(idCancha);
 
         if(!turnos.isEmpty()){
-            throw new CascadeException("La cancha tiene turnos asignados para el futuro!");
+            throw new TurnosSuperpuestosException("La cancha tiene turnos asignados para el futuro!");
         }
     }
 }

@@ -58,15 +58,6 @@ public class ErrorHandlerController {
 
         errors.put("error", exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-    }
-
-    @ExceptionHandler(CascadeException.class)
-    public ResponseEntity<Map<String, String>> handleCascadeException(CascadeException exception){
-        Map<String, String> errors = new HashMap<>();
-
-        errors.put("error", exception.getMessage());
-
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errors);
     }
 
