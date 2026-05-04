@@ -7,6 +7,7 @@ import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
 import org.learning.sistemacanchas.exception.CascadeException;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
+import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
 import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.repository.CanchaRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
@@ -34,7 +35,7 @@ public class CanchaServiceImp implements CanchaService{
     }
 
     @Override
-    public PageDTORes<CanchaSummaryDTORes> traerTodasLasCanchas(int pageNo, int pageSize) {
+    public PageDTORes<CanchaSummaryDTORes> traerCanchasPaginado(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
         Page<Cancha> canchasPage = canchaRepository.findAll(pageable);
@@ -90,6 +91,15 @@ public class CanchaServiceImp implements CanchaService{
         Cancha editedCancha = canchaRepository.save(cancha);
 
         return CanchaMapper.canchaToCanchaSummaryDTORes(editedCancha);
+    }
+
+    @Override
+    public List<CanchaSummaryDTORes> traerTodasLasCanchas() {
+        List<Cancha> canchas = canchaRepository.findAll();
+
+        return canchas.stream()
+                .map(CanchaMapper::canchaToCanchaSummaryDTORes)
+                .toList();
     }
 
 

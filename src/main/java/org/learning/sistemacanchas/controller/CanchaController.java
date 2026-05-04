@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/canchas")
 @RequiredArgsConstructor
@@ -27,11 +29,16 @@ public class CanchaController {
     }
 
     @GetMapping
-    public ResponseEntity<PageDTORes<CanchaSummaryDTORes>> traerTodasLasCanchas(
+    public ResponseEntity<PageDTORes<CanchaSummaryDTORes>> traerCanchasPaginado(
         @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
         @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ){
-        return ResponseEntity.ok(canchaService.traerTodasLasCanchas(pageNo, pageSize));
+        return ResponseEntity.ok(canchaService.traerCanchasPaginado(pageNo, pageSize));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CanchaSummaryDTORes>> traerTodasLasCanchas(){
+        return ResponseEntity.ok(canchaService.traerTodasLasCanchas());
     }
 
     @GetMapping("{id}")

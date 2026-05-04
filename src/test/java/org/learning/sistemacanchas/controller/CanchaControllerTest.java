@@ -74,7 +74,7 @@ public class CanchaControllerTest {
     }
 
     @Test
-    public void canchaController_traerTodasLasCanchas_devuelvePaginaDeCanchas() throws Exception {
+    public void canchaController_traerCanchasPaginado_devuelvePaginaDeCanchas() throws Exception {
         PageDTORes<CanchaSummaryDTORes> response = PageDTORes.<CanchaSummaryDTORes>builder()
                         .content(List.of(canchaResponseDTO))
                         .pageNo(0)
@@ -84,7 +84,7 @@ public class CanchaControllerTest {
                         .last(true)
                         .build();
 
-        given(canchaService.traerTodasLasCanchas(0, 10))
+        given(canchaService.traerCanchasPaginado(0, 10))
                 .willReturn(response);
 
         ResultActions resultActions = mockMvc.perform(get("/api/canchas")
@@ -101,7 +101,7 @@ public class CanchaControllerTest {
     }
 
     @Test
-    public void canchaController_traerTodasLasCanchas_devuelvePaginaDeCanchasSinCanchas() throws Exception {
+    public void canchaController_traerCanchasPaginado_devuelvePaginaDeCanchasSinCanchas() throws Exception {
         PageDTORes<CanchaSummaryDTORes> response = PageDTORes.<CanchaSummaryDTORes>builder()
                 .content(List.of())
                 .pageNo(0)
@@ -111,7 +111,7 @@ public class CanchaControllerTest {
                 .last(true)
                 .build();
 
-        given(canchaService.traerTodasLasCanchas(0, 10))
+        given(canchaService.traerCanchasPaginado(0, 10))
                 .willReturn(response);
 
         ResultActions resultActions = mockMvc.perform(get("/api/canchas")

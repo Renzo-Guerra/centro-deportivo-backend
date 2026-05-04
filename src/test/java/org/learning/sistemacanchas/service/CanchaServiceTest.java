@@ -64,7 +64,7 @@ public class CanchaServiceTest {
     }
 
     @Test
-    public void canchaService_traerTodasLasCanchas_traerPaginaDeCanchas(){
+    public void canchaService_traerCanchasPaginado_traerPaginaDeCanchas(){
         Pageable pageable = PageRequest.of(0, 10);
         List<Cancha> canchas = List.of(cancha);
 
@@ -73,7 +73,7 @@ public class CanchaServiceTest {
         Mockito.when(canchaRepository.findAll(pageable))
                 .thenReturn(page);
 
-        PageDTORes<CanchaSummaryDTORes> response = canchaService.traerTodasLasCanchas(0, 10);
+        PageDTORes<CanchaSummaryDTORes> response = canchaService.traerCanchasPaginado(0, 10);
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getContent()).isNotEmpty();
@@ -85,7 +85,7 @@ public class CanchaServiceTest {
     }
 
     @Test
-    public void canchaService_traerTodasLasCanchas_traerPaginaDeCanchasSinContent(){
+    public void canchaService_traerCanchasPaginado_traerPaginaDeCanchasSinContent(){
         Pageable pageable = PageRequest.of(0, 10);
 
         Page<Cancha> page = new PageImpl<>(List.of(), pageable, 0);
@@ -93,7 +93,7 @@ public class CanchaServiceTest {
         Mockito.when(canchaRepository.findAll(pageable))
                 .thenReturn(page);
 
-        PageDTORes<CanchaSummaryDTORes> response = canchaService.traerTodasLasCanchas(0, 10);
+        PageDTORes<CanchaSummaryDTORes> response = canchaService.traerCanchasPaginado(0, 10);
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getContent()).isEmpty();
