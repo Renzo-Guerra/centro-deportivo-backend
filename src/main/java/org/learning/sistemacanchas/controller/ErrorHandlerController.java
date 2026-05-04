@@ -1,5 +1,6 @@
 package org.learning.sistemacanchas.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.ConstraintViolationException;
 import org.learning.sistemacanchas.exception.CascadeException;
@@ -63,6 +64,15 @@ public class ErrorHandlerController {
 
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<Map<String, String>> handleSignatureException(SignatureException exception){
+        Map<String, String> errors = new HashMap<>();
+
+        errors.put("error", exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errors);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Map<String, String>> handleExpiredJwtException(ExpiredJwtException exception){
         Map<String, String> errors = new HashMap<>();
 
         errors.put("error", exception.getMessage());
