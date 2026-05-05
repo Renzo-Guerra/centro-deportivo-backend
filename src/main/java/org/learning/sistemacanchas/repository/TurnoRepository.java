@@ -1,6 +1,8 @@
 package org.learning.sistemacanchas.repository;
 
 import org.learning.sistemacanchas.entity.Turno;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +35,14 @@ public interface TurnoRepository extends JpaRepository<Turno, Long> {
             @Param("inicioDia") LocalDateTime inicioDia,
             @Param("finDia") LocalDateTime finDia,
             Sort sort);
+
+    @Query(
+    """
+        SELECT t
+        FROM Turno t
+        WHERE t.cancha.id = :id
+    """)
+    Page<Turno> findTurnosByCanchaId(
+            @Param("id") Long id,
+            Pageable pageable);
 }

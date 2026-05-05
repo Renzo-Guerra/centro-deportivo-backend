@@ -57,6 +57,7 @@ public class TurnoServiceImp implements TurnoService{
     }
 
     @Override
+    @Transactional
     public PageDTORes<TurnoDTORes> traerTodosLosTurnos(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
@@ -78,6 +79,7 @@ public class TurnoServiceImp implements TurnoService{
     }
 
     @Override
+    @Transactional
     public List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha, String sortBy, String direction) {
         Sort sort = Sort.unsorted();
 
@@ -95,12 +97,14 @@ public class TurnoServiceImp implements TurnoService{
                 .toList();
     }
 
+    @Transactional
     private Turno traerEntidadTurnoPorId(Long id){
         return turnoRepository.findById(id)
                 .orElseThrow(()-> new NoEncontradoException("No se logró encontrar el turno con id '" + id + "'!"));
     }
 
     @Override
+    @Transactional
     public void eliminarTurno(Long id) {
         Turno turno = this.traerEntidadTurnoPorId(id);
 
@@ -108,6 +112,7 @@ public class TurnoServiceImp implements TurnoService{
     }
 
     @Override
+    @Transactional
     public TurnoDTORes editarTurno(Long id, TurnoDTOReq request) {
         Turno turno = traerEntidadTurnoPorId(id);
 
@@ -131,6 +136,33 @@ public class TurnoServiceImp implements TurnoService{
         Turno editedTurno = turnoRepository.save(turno);
 
         return TurnoMapper.turnoToTurnoDTORes(editedTurno);
+    }
+
+    @Transactional
+    public PageDTORes<TurnoDTORes> traerTurnosDeCanchaPaginado(Long id, int pageNo, int pageSize, String sortBy, String direction) {
+        Sort sort = Sort.unsorted();
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
+        }
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<Turno> turnosPage = turnoRepository.findTurnosByCanchaId(id, pageable);
+        List<Turno> turnoList = turnosPage.getContent();
+
+        List<TurnoDTORes> content = turnoList.stream()
+                .map(TurnoMapper::turnoToTurnoDTORes)
+                .toList();
+
+        return PageDTORes.<TurnoDTORes>builder()
+                .content(content)
+                .pageNo(turnosPage.getNumber())
+                .pageSize(turnosPage.getSize())
+                .totalElements(turnosPage.getTotalElements())
+                .totalPages(turnosPage.getTotalPages())
+                .last(turnosPage.isLast())
+                .build();
     }
 
 

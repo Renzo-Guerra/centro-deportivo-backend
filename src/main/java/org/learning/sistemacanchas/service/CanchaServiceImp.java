@@ -34,6 +34,7 @@ public class CanchaServiceImp implements CanchaService{
     }
 
     @Override
+    @Transactional
     public PageDTORes<CanchaSummaryDTORes> traerCanchasPaginado(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
@@ -55,6 +56,7 @@ public class CanchaServiceImp implements CanchaService{
     }
 
     @Override
+    @Transactional
     public CanchaSummaryDTORes traerCanchaPorId(Long id) {
         Cancha cancha = this.traerEntidadCanchaPorId(id);
 
@@ -62,6 +64,7 @@ public class CanchaServiceImp implements CanchaService{
     }
 
     @Override
+    @Transactional
     public Cancha traerEntidadCanchaPorId(Long id) {
         return canchaRepository.findById(id)
                 .orElseThrow(()-> new NoEncontradoException("No se logró encontrar la cancha con id '" + id + "'!"));
@@ -93,6 +96,7 @@ public class CanchaServiceImp implements CanchaService{
     }
 
     @Override
+    @Transactional
     public List<CanchaSummaryDTORes> traerTodasLasCanchas() {
         List<Cancha> canchas = canchaRepository.findAll();
 
@@ -100,7 +104,6 @@ public class CanchaServiceImp implements CanchaService{
                 .map(CanchaMapper::canchaToCanchaSummaryDTORes)
                 .toList();
     }
-
 
     /**
      * Dado un idCancha, verifica si la cancha tiene turnos futuros pendientes.
@@ -112,6 +115,7 @@ public class CanchaServiceImp implements CanchaService{
      * @param idCancha Cancha a evaluar
      * @throws TurnosSuperpuestosException Si se encuentran turnos programados después de la fecha/hora actual.
      */
+    @Transactional
     private void verificarSiCanchaTieneTurnosFuturos (Long idCancha){
         List<Turno> turnos = canchaRepository.findFutureTurnos(idCancha);
 

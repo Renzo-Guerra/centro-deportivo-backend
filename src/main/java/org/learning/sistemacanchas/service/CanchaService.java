@@ -1,6 +1,5 @@
 package org.learning.sistemacanchas.service;
 
-import jakarta.validation.Valid;
 import org.learning.sistemacanchas.DTOs.CanchaDTOReq;
 import org.learning.sistemacanchas.DTOs.CanchaSummaryDTORes;
 import org.learning.sistemacanchas.entity.Cancha;

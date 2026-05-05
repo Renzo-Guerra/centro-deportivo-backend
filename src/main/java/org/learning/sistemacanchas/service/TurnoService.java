@@ -1,6 +1,5 @@
 package org.learning.sistemacanchas.service;
 
-import jakarta.validation.Valid;
 import org.learning.sistemacanchas.DTOs.TurnoDTOReq;
 import org.learning.sistemacanchas.DTOs.TurnoDTORes;
 import org.learning.sistemacanchas.utils.PageDTORes;
@@ -14,4 +13,5 @@ public interface TurnoService {
     List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha, String sortBy, String direction);
     void eliminarTurno(Long id);
     TurnoDTORes editarTurno(Long id, TurnoDTOReq request);
+    PageDTORes<TurnoDTORes> traerTurnosDeCanchaPaginado(Long id, int pageNo, int pageSize, String sortBy, String direction);
 }
