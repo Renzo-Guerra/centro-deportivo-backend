@@ -17,7 +17,7 @@ public class TurnoDTORes {
     private String celularCliente;
     private LocalDateTime creacionTurno;
     private LocalDateTime inicioTurno;
-    private Long duracionMinutos;
+    private Long duracionTurnoMinutos;
     private Long idCancha;
     private String nombreCancha;
     private String deporte;

@@ -13,4 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = DuracionTurnoValidaValidator.class)
 public @interface DuracionTurnoValida {
     String message() default "Duración de turno invalida!";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
 }

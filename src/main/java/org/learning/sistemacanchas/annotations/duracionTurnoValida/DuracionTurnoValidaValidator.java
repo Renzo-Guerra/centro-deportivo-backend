@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 
 public class DuracionTurnoValidaValidator implements ConstraintValidator<DuracionTurnoValida, Long> {
-    private final Long[] duracionesValidas = {0L, 30L};
+    private final Long[] duracionesValidas = {30L, 60L};
 
     @Override
     public boolean isValid(Long duracion, ConstraintValidatorContext context) {

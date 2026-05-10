@@ -44,8 +44,8 @@ public class TurnoSeeder implements Seeder{
 
     public int getDuracionCancha(CanchaEnum tipo){
         return switch(tipo){
-            case FUTBOL, VOLEY -> 59;
-            case TENIS, PADEL -> 29;
+            case FUTBOL, VOLEY -> 60;
+            case TENIS, PADEL -> 30;
         };
     }
 
