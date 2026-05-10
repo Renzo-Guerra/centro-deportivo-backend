@@ -13,6 +13,7 @@ import org.learning.sistemacanchas.utils.PageDTORes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,8 +98,25 @@ public class CanchaServiceImp implements CanchaService{
 
     @Override
     @Transactional
-    public List<CanchaSummaryDTORes> traerTodasLasCanchas() {
-        List<Cancha> canchas = canchaRepository.findAll();
+    public List<CanchaSummaryDTORes> traerTodasLasCanchas(List<String> sortParams) {
+        Sort sort = Sort.unsorted();
+
+        if (sortParams != null && !sortParams.isEmpty()) {
+            List<Sort.Order> orders = sortParams.stream()
+                    .map(param -> {
+                        String[] parts = param.split(",");
+                        String field = parts[0].trim();
+                        Sort.Direction dir = (parts.length > 1)
+                                ? Sort.Direction.fromString(parts[1].trim())
+                                : Sort.Direction.ASC;
+                        return new Sort.Order(dir, field);
+                    })
+                    .toList();
+
+            sort = Sort.by(orders);
+        }
+
+        List<Cancha> canchas = canchaRepository.findAll(sort);
 
         return canchas.stream()
                 .map(CanchaMapper::canchaToCanchaSummaryDTORes)

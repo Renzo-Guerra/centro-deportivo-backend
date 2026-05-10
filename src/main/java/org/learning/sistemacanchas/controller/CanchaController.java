@@ -38,8 +38,10 @@ public class CanchaController {
     }
 
     @GetMapping("/canchas/all")
-    public ResponseEntity<List<CanchaSummaryDTORes>> traerTodasLasCanchas(){
-        return ResponseEntity.ok(canchaService.traerTodasLasCanchas());
+    public ResponseEntity<List<CanchaSummaryDTORes>> traerTodasLasCanchas(
+            @RequestParam(name = "sortBy", required = false) List<String> sortParams
+    ){
+        return ResponseEntity.ok(canchaService.traerTodasLasCanchas(sortParams));
     }
 
     @GetMapping("/canchas/{id}")

@@ -14,5 +14,5 @@ public interface CanchaService {
     Cancha traerEntidadCanchaPorId(Long id);
     void eliminarCancha(Long id);
     CanchaSummaryDTORes editarCancha(Long id, CanchaDTOReq request);
-    List<CanchaSummaryDTORes> traerTodasLasCanchas();
+    List<CanchaSummaryDTORes> traerTodasLasCanchas(List<String> sortParams);
 }
