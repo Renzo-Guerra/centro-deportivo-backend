@@ -90,7 +90,7 @@ public class TurnoServiceTest {
     }
 
     @Test
-    public void turnoService_traerTodosLosTurnos_traerPaginaDeTurnos(){
+    public void turnoService_traerTurnosPaginados_traerPaginaDeTurnos(){
         Pageable pageable = PageRequest.of(0, 10);
         List<Turno> turnos = List.of(turno);
 
@@ -99,7 +99,7 @@ public class TurnoServiceTest {
         Mockito.when(turnoRepository.findAll(pageable))
                 .thenReturn(page);
 
-        PageDTORes<TurnoDTORes> response = turnoService.traerTodosLosTurnos(0, 10);
+        PageDTORes<TurnoDTORes> response = turnoService.traerTurnosPaginados(0, 10);
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getContent()).isNotEmpty();
@@ -111,7 +111,7 @@ public class TurnoServiceTest {
     }
 
     @Test
-    public void turnoService_traerTodosLosTurnos_traerPaginaDeTurnosSinContent(){
+    public void turnoService_traerTurnosPaginados_traerPaginaDeTurnosSinContent(){
         Pageable pageable = PageRequest.of(0, 10);
 
         Page<Turno> page = new PageImpl<>(List.of(), pageable, 0);
@@ -119,7 +119,7 @@ public class TurnoServiceTest {
         Mockito.when(turnoRepository.findAll(pageable))
                 .thenReturn(page);
 
-        PageDTORes<TurnoDTORes> response = turnoService.traerTodosLosTurnos(0, 10);
+        PageDTORes<TurnoDTORes> response = turnoService.traerTurnosPaginados(0, 10);
 
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getContent()).isEmpty();

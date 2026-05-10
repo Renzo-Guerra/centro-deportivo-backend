@@ -38,11 +38,18 @@ public class TurnoController {
     }
 
     @GetMapping("/turnos")
-    public ResponseEntity<PageDTORes<TurnoDTORes>> traerTodosLosTurnos(
+    public ResponseEntity<PageDTORes<TurnoDTORes>> traerTurnosPaginados(
             @RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
             @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize
     ){
-        return ResponseEntity.ok(turnoService.traerTodosLosTurnos(pageNo, pageSize));
+        return ResponseEntity.ok(turnoService.traerTurnosPaginados(pageNo, pageSize));
+    }
+
+    @GetMapping("/turnos/all")
+    public ResponseEntity<List<TurnoDTORes>> traerTodosLosTurnos(
+            @RequestParam(name = "sortBy", required = false) List<String> sortParams
+    ){
+        return ResponseEntity.ok(turnoService.traerTodosLosTurnos(sortParams));
     }
 
     @GetMapping("/turnos/fecha")

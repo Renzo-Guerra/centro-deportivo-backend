@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface TurnoService {
     TurnoDTORes crearTurno(TurnoDTOReq turno);
-    PageDTORes<TurnoDTORes> traerTodosLosTurnos(int pageNo, int pageSize);
+    PageDTORes<TurnoDTORes> traerTurnosPaginados(int pageNo, int pageSize);
     List<TurnoDTORes> traerTurnosPorFecha(LocalDate fecha, String sortBy, String direction);
     void eliminarTurno(Long id);
     TurnoDTORes editarTurno(Long id, TurnoDTOReq request);
     PageDTORes<TurnoDTORes> traerTurnosDeCanchaPaginado(Long id, int pageNo, int pageSize, String sortBy, String direction);
+    List<TurnoDTORes> traerTodosLosTurnos(List<String> sortParams);
 }

@@ -7,7 +7,6 @@ import org.learning.sistemacanchas.entity.Cancha;
 import org.learning.sistemacanchas.entity.Turno;
 import org.learning.sistemacanchas.exception.NoEncontradoException;
 import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
-import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.mapper.TurnoMapper;
 import org.learning.sistemacanchas.repository.TurnoRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
@@ -58,7 +57,7 @@ public class TurnoServiceImp implements TurnoService{
 
     @Override
     @Transactional
-    public PageDTORes<TurnoDTORes> traerTodosLosTurnos(int pageNo, int pageSize) {
+    public PageDTORes<TurnoDTORes> traerTurnosPaginados(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
 
         Page<Turno> turnosPage = turnoRepository.findAll(pageable);
@@ -165,5 +164,29 @@ public class TurnoServiceImp implements TurnoService{
                 .build();
     }
 
+    @Override
+    public List<TurnoDTORes> traerTodosLosTurnos(List<String> sortParams) {
+        Sort sort = Sort.unsorted();
 
+        if (sortParams != null && !sortParams.isEmpty()) {
+            List<Sort.Order> orders = sortParams.stream()
+                    .map(param -> {
+                        String[] parts = param.split(",");
+                        String field = parts[0].trim();
+                        Sort.Direction dir = (parts.length > 1)
+                                ? Sort.Direction.fromString(parts[1].trim())
+                                : Sort.Direction.ASC;
+                        return new Sort.Order(dir, field);
+                    })
+                    .toList();
+
+            sort = Sort.by(orders);
+        }
+
+        List<Turno> turnos = turnoRepository.findAll(sort);
+
+        return turnos.stream()
+                .map(TurnoMapper::turnoToTurnoDTORes)
+                .toList();
+    }
 }

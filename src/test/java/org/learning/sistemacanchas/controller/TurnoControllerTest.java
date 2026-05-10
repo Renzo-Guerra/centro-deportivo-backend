@@ -62,7 +62,7 @@ public class TurnoControllerTest {
                 .celularCliente(request.getCelularCliente())
                 .creacionTurno(LocalDateTime.now())
                 .inicioTurno(request.getInicioTurno())
-                .duracionMinutos(request.getDuracionTurnoMinutos())
+                .duracionTurnoMinutos(request.getDuracionTurnoMinutos())
                 .nombreCancha("cancha test")
                 .build();
     }
@@ -96,7 +96,7 @@ public class TurnoControllerTest {
     }
 
     @Test
-    public void turnoController_traerTodosLosTurnos_devuelvePaginaDeTurnos() throws Exception {
+    public void turnoController_traerTurnosPaginados_devuelvePaginaDeTurnos() throws Exception {
         PageDTORes<TurnoDTORes> responsePage = PageDTORes.<TurnoDTORes>builder()
                 .content(List.of(responseDTO))
                 .pageNo(0)
@@ -106,7 +106,7 @@ public class TurnoControllerTest {
                 .last(true)
                 .build();
 
-        given(turnoService.traerTodosLosTurnos(0, 10))
+        given(turnoService.traerTurnosPaginados(0, 10))
                 .willReturn(responsePage);
 
         ResultActions resultActions = mockMvc.perform(get("/api/turnos")
@@ -123,7 +123,7 @@ public class TurnoControllerTest {
     }
 
     @Test
-    public void turnoController_traerTodosLosTurnos_devuelvePaginaDeTurnosSinTurnos() throws Exception {
+    public void turnoController_traerTurnosPaginados_devuelvePaginaDeTurnosSinTurnos() throws Exception {
         PageDTORes<TurnoDTORes> responsePage = PageDTORes.<TurnoDTORes>builder()
                 .content(List.of())
                 .pageNo(0)
@@ -133,7 +133,7 @@ public class TurnoControllerTest {
                 .last(true)
                 .build();
 
-        given(turnoService.traerTodosLosTurnos(0, 10))
+        given(turnoService.traerTurnosPaginados(0, 10))
                 .willReturn(responsePage);
 
         ResultActions resultActions = mockMvc.perform(get("/api/turnos")
