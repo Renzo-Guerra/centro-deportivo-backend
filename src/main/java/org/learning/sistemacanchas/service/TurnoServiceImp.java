@@ -10,6 +10,7 @@ import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
 import org.learning.sistemacanchas.mapper.TurnoMapper;
 import org.learning.sistemacanchas.repository.TurnoRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
+import org.learning.sistemacanchas.utils.QueryUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -166,22 +167,7 @@ public class TurnoServiceImp implements TurnoService{
 
     @Override
     public List<TurnoDTORes> traerTodosLosTurnos(List<String> sortParams) {
-        Sort sort = Sort.unsorted();
-
-        if (sortParams != null && !sortParams.isEmpty()) {
-            List<Sort.Order> orders = sortParams.stream()
-                    .map(param -> {
-                        String[] parts = param.split(",");
-                        String field = parts[0].trim();
-                        Sort.Direction dir = (parts.length > 1)
-                                ? Sort.Direction.fromString(parts[1].trim())
-                                : Sort.Direction.ASC;
-                        return new Sort.Order(dir, field);
-                    })
-                    .toList();
-
-            sort = Sort.by(orders);
-        }
+        Sort sort = QueryUtils.extractSort(sortParams);
 
         List<Turno> turnos = turnoRepository.findAll(sort);
 

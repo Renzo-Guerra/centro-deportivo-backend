@@ -10,6 +10,7 @@ import org.learning.sistemacanchas.exception.TurnosSuperpuestosException;
 import org.learning.sistemacanchas.mapper.CanchaMapper;
 import org.learning.sistemacanchas.repository.CanchaRepository;
 import org.learning.sistemacanchas.utils.PageDTORes;
+import org.learning.sistemacanchas.utils.QueryUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -99,22 +100,7 @@ public class CanchaServiceImp implements CanchaService{
     @Override
     @Transactional
     public List<CanchaSummaryDTORes> traerTodasLasCanchas(List<String> sortParams) {
-        Sort sort = Sort.unsorted();
-
-        if (sortParams != null && !sortParams.isEmpty()) {
-            List<Sort.Order> orders = sortParams.stream()
-                    .map(param -> {
-                        String[] parts = param.split(",");
-                        String field = parts[0].trim();
-                        Sort.Direction dir = (parts.length > 1)
-                                ? Sort.Direction.fromString(parts[1].trim())
-                                : Sort.Direction.ASC;
-                        return new Sort.Order(dir, field);
-                    })
-                    .toList();
-
-            sort = Sort.by(orders);
-        }
+        Sort sort = QueryUtils.extractSort(sortParams);
 
         List<Cancha> canchas = canchaRepository.findAll(sort);
 
