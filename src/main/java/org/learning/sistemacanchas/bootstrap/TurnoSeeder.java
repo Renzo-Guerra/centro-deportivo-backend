@@ -21,8 +21,6 @@ public class TurnoSeeder implements Seeder{
     public void seed() {
         List<Cancha> canchas = canchaRepository.findAll();
 
-        Integer[] inicioTurnoValido = new Integer[]{0, 30};
-
         LocalDateTime fechaActual = LocalDateTime.now();
 
         List<Turno> turnos = canchas.stream()
@@ -31,7 +29,7 @@ public class TurnoSeeder implements Seeder{
                             .nombreCliente(getRandomValue(new String[]{"Miguel", "Julieta", "Agustina", "Maria", "Ramiro"}))
                             .apellidoCliente(getRandomValue(new String[]{"Torres", "Gonzales", "Ramirez", "Alvares", "Maldonado"}))
                             .celularCliente("2231-334456")
-                            .inicioTurno(LocalDateTime.of(fechaActual.getYear(), fechaActual.getMonth(), fechaActual.getDayOfMonth(), fechaActual.getHour() + getRandomValue(new Integer[]{0, 1, 2, 3, 4}), getRandomValue(inicioTurnoValido), fechaActual.getSecond()))
+                            .inicioTurno(LocalDateTime.of(fechaActual.getYear(), fechaActual.getMonth(), fechaActual.getDayOfMonth(), fechaActual.getHour() + getRandomValue(new Integer[]{0, 1, 2, 3, 4}), getInicioMinutos(cancha.getTipo()), fechaActual.getSecond()))
                             .finTurno(LocalDateTime.now())
                             .cancha(cancha)
                             .build();
@@ -46,8 +44,15 @@ public class TurnoSeeder implements Seeder{
 
     public int getDuracionCancha(CanchaEnum tipo){
         return switch(tipo){
-            case FUTBOL, VOLEY -> 60;
-            case TENIS, PADEL -> 30;
+            case FUTBOL, VOLEY -> 59;
+            case TENIS, PADEL -> 29;
+        };
+    }
+
+    public int getInicioMinutos(CanchaEnum tipo){
+        return switch(tipo){
+            case FUTBOL, VOLEY -> 0;
+            case TENIS, PADEL -> getRandomValue(new Integer[]{0,30});
         };
     }
 
