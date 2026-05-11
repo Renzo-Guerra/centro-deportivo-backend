@@ -40,9 +40,10 @@ public class TurnoController {
     @GetMapping("/turnos")
     public ResponseEntity<PageDTORes<TurnoDTORes>> traerTurnosPaginados(
             @RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize
+            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+            @RequestParam(name = "sortBy", required = false) List<String> sortParams
     ){
-        return ResponseEntity.ok(turnoService.traerTurnosPaginados(pageNo, pageSize));
+        return ResponseEntity.ok(turnoService.traerTurnosPaginados(pageNo, pageSize, sortParams));
     }
 
     @GetMapping("/turnos/all")

@@ -58,8 +58,10 @@ public class TurnoServiceImp implements TurnoService{
 
     @Override
     @Transactional
-    public PageDTORes<TurnoDTORes> traerTurnosPaginados(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+    public PageDTORes<TurnoDTORes> traerTurnosPaginados(int pageNo, int pageSize, List<String> sortParams) {
+        Sort sort = QueryUtils.extractSort(sortParams);
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
         Page<Turno> turnosPage = turnoRepository.findAll(pageable);
         List<Turno> turnosList = turnosPage.getContent();

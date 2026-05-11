@@ -106,7 +106,7 @@ public class TurnoControllerTest {
                 .last(true)
                 .build();
 
-        given(turnoService.traerTurnosPaginados(0, 10))
+        given(turnoService.traerTurnosPaginados(0, 10, List.of()))
                 .willReturn(responsePage);
 
         ResultActions resultActions = mockMvc.perform(get("/api/turnos")
@@ -133,7 +133,7 @@ public class TurnoControllerTest {
                 .last(true)
                 .build();
 
-        given(turnoService.traerTurnosPaginados(0, 10))
+        given(turnoService.traerTurnosPaginados(0, 10, List.of()))
                 .willReturn(responsePage);
 
         ResultActions resultActions = mockMvc.perform(get("/api/turnos")
