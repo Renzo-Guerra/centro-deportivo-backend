@@ -15,4 +15,5 @@ public interface TurnoService {
     TurnoDTORes editarTurno(Long id, TurnoDTOReq request);
     PageDTORes<TurnoDTORes> traerTurnosDeCanchaPaginado(Long id, int pageNo, int pageSize, String sortBy, String direction);
     List<TurnoDTORes> traerTodosLosTurnos(List<String> sortParams);
+    PageDTORes<TurnoDTORes> traerTurnosPorRango(LocalDate fechaInicio, LocalDate fechaFin, int pageNo, int pageSize, List<String> sortParams);
 }

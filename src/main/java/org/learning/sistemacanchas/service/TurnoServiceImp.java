@@ -177,4 +177,30 @@ public class TurnoServiceImp implements TurnoService{
                 .map(TurnoMapper::turnoToTurnoDTORes)
                 .toList();
     }
+
+    @Override
+    public PageDTORes<TurnoDTORes> traerTurnosPorRango(LocalDate fechaInicio, LocalDate fechaFin, int pageNo, int pageSize, List<String> sortParams) {
+        Sort sort = QueryUtils.extractSort(sortParams);
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        LocalDateTime desde = LocalDateTime.of(fechaInicio, LocalTime.MIN);
+        LocalDateTime hasta = LocalDateTime.of(fechaFin, LocalTime.MAX);
+
+        Page<Turno> turnosPage = turnoRepository.findAllByRango(desde, hasta, pageable);
+        List<Turno> turnoList = turnosPage.getContent();
+
+        List<TurnoDTORes> content = turnoList.stream()
+                .map(TurnoMapper::turnoToTurnoDTORes)
+                .toList();
+
+        return PageDTORes.<TurnoDTORes>builder()
+                .content(content)
+                .pageNo(turnosPage.getNumber())
+                .pageSize(turnosPage.getSize())
+                .totalElements(turnosPage.getTotalElements())
+                .totalPages(turnosPage.getTotalPages())
+                .last(turnosPage.isLast())
+                .build();
+    }
 }

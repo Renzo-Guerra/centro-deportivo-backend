@@ -45,4 +45,16 @@ public interface TurnoRepository extends JpaRepository<Turno, Long> {
     Page<Turno> findTurnosByCanchaId(
             @Param("id") Long id,
             Pageable pageable);
+
+    @Query(
+    """
+        SELECT t
+        FROM Turno t
+        WHERE t.inicioTurno BETWEEN :desde AND :hasta
+    """
+    )
+    Page<Turno> findAllByRango(
+            @Param("desde") LocalDateTime desde,
+            @Param("hasta")LocalDateTime hasta,
+            Pageable pageable);
 }

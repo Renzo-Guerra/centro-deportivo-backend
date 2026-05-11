@@ -62,6 +62,17 @@ public class TurnoController {
         return ResponseEntity.ok(turnoService.traerTurnosPorFecha(fecha, sortBy, direction));
     }
 
+    @GetMapping("/turnos/rango")
+    public ResponseEntity<PageDTORes<TurnoDTORes>> traerTurnosPorRangoDeFechas(
+            @RequestParam(name = "desde") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaInicio,
+            @RequestParam(name = "hasta") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaFin,
+            @RequestParam(name = "pageNo", required = false, defaultValue = "0") int pageNo,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "fechaInicio,ASC") List<String> sortParams
+    ) {
+        return ResponseEntity.ok(turnoService.traerTurnosPorRango(fechaInicio, fechaFin, pageNo, pageSize, sortParams));
+    }
+
     @GetMapping("/canchas/{id}/turnos")
     public ResponseEntity<PageDTORes<TurnoDTORes>> traerTurnosPorCanchaId(
             @PathVariable Long id,
