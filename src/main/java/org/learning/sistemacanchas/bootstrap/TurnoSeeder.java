@@ -39,7 +39,9 @@ public class TurnoSeeder implements Seeder{
                                     fechaActual.getDayOfMonth(),
                                     fechaActual.getHour() + getRandomValue(new Integer[]{0, 1, 2, 3, 4}),
                                     getInicioMinutos(cancha.getTipo()),
-                                    fechaActual.getSecond()))
+                                    0))
+                            // Para que no haya errores en "turnos superpuestos" debemos asegurarnos que los segundos
+                            // siempre sean 0 al momento de crearse u editarse
                             .finTurno(LocalDateTime.now())
                             .cancha(cancha)
                             .build();
