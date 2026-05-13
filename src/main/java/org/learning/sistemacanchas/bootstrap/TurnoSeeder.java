@@ -21,15 +21,25 @@ public class TurnoSeeder implements Seeder{
     public void seed() {
         List<Cancha> canchas = canchaRepository.findAll();
 
+        String[] nombres = new String[]{"Miguel", "Julieta", "Agustina", "Maria", "Ramiro"};
+        String[] apellidos = new String[]{"Torres", "Gonzales", "Ramirez", "Alvares", "Maldonado"};
+        String[] celulares = new String[]{"2262-334540", "2262-509887", "2262-316689", "2262-501248", "2262-787822"};
+
         LocalDateTime fechaActual = LocalDateTime.now();
 
         List<Turno> turnos = canchas.stream()
                 .map((cancha -> {
                     Turno t = Turno.builder()
-                            .nombreCliente(getRandomValue(new String[]{"Miguel", "Julieta", "Agustina", "Maria", "Ramiro"}))
-                            .apellidoCliente(getRandomValue(new String[]{"Torres", "Gonzales", "Ramirez", "Alvares", "Maldonado"}))
-                            .celularCliente("2231-334456")
-                            .inicioTurno(LocalDateTime.of(fechaActual.getYear(), fechaActual.getMonth(), fechaActual.getDayOfMonth(), fechaActual.getHour() + getRandomValue(new Integer[]{0, 1, 2, 3, 4}), getInicioMinutos(cancha.getTipo()), fechaActual.getSecond()))
+                            .nombreCliente(getRandomValue(nombres))
+                            .apellidoCliente(getRandomValue(apellidos))
+                            .celularCliente(getRandomValue(celulares))
+                            .inicioTurno(LocalDateTime.of(
+                                    fechaActual.getYear(),
+                                    fechaActual.getMonth(),
+                                    fechaActual.getDayOfMonth(),
+                                    fechaActual.getHour() + getRandomValue(new Integer[]{0, 1, 2, 3, 4}),
+                                    getInicioMinutos(cancha.getTipo()),
+                                    fechaActual.getSecond()))
                             .finTurno(LocalDateTime.now())
                             .cancha(cancha)
                             .build();
