@@ -20,10 +20,10 @@ public class UsuarioSeeder implements Seeder{
 
     private void cargarAdmins(){
         UsuarioDTOReq admin1 = UsuarioDTOReq.builder()
-                .nombre("Ricardo")
-                .apellido("Fontana")
-                .email("riquifontana@gmail.com")
-                .contrasenia("password123")
+                .nombre("Renzo")
+                .apellido("Guerra")
+                .email("admin@gmail.com")
+                .contrasenia("admin123")
                 .build();
 
         List<UsuarioDTOReq> admins = List.of(admin1);
