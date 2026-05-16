@@ -30,7 +30,7 @@ public class TurnoSeeder implements Seeder{
         String[] apellidos = new String[]{"Torres", "Gonzales", "Ramirez", "Alvares", "Maldonado"};
         String[] celulares = new String[]{"2262-334540", "2262-509887", "2262-316689", "2262-501248", "2262-787822"};
 
-        int CANT_DIAS = 30;
+        int CANT_DIAS = 180;
         // HORA_CIERRE SIEMPRE debe ser mayor que HORA_APERTURA.
         // De lo contrario la poblacion podria salir con turnos fuera de horarios laborales.
         LocalTime HORA_APERTURA = LocalTime.of(10, 0);
