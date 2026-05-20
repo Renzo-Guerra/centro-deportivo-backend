@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the application code from Sistema-canchas into "/app" inside the container
 COPY . .
 
+# LE DA PERMISOS DE EJECUCIÓN AL WRAPPER DE MAVEN
+RUN chmod +x mvnw
+
 # Build the application
 RUN ./mvnw clean package -DskipTests
 
